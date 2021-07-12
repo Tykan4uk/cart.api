@@ -7,3 +7,6 @@ dotnet ef --startup-project services/CartApi.Service migrations add InitialMigra
 
 #Update-Migration
 dotnet ef --startup-project services/CartApi.Service database update InitialMigration --project src/CartApi
+
+#Remove-Migration
+dotnet ef --startup-project services/CartApi.Service migrations remove --project src/CartApi -f
