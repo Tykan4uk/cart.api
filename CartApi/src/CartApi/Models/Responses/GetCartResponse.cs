@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace CartApi.Models
+namespace CartApi.Models.Responses
 {
     public class GetCartResponse
     {

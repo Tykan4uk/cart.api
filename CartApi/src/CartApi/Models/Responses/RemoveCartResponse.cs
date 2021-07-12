@@ -1,4 +1,4 @@
-﻿namespace CartApi.Models
+﻿namespace CartApi.Models.Responses
 {
     public class RemoveCartResponse
     {
