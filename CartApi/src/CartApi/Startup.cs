@@ -1,29 +1,29 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using CartApi.Configuration;
+using CartApi.Data.Cache;
+using CartApi.Services;
+using CartApi.Services.Abstractions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 
 namespace CartApi
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup()
         {
-            Configuration = configuration;
+            var builder = new ConfigurationBuilder()
+                .AddJsonFile("config.json")
+                .AddEnvironmentVariables();
+
+            AppConfiguration = builder.Build();
         }
 
-        public IConfiguration Configuration { get; }
+        public IConfiguration AppConfiguration { get; set; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
@@ -31,9 +31,15 @@ namespace CartApi
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "CartApi", Version = "v1" });
             });
+
+            services.Configure<Config>(AppConfiguration);
+
+            services.AddTransient<IRedisCacheConnectionService, RedisCacheConnectionService>();
+            services.AddTransient<ICacheService<CartCacheEntity>, CacheService<CartCacheEntity>>();
+            services.AddTransient<IJsonSerializer, JsonSerializer>();
+            services.AddTransient<ICartService, CartService>();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
