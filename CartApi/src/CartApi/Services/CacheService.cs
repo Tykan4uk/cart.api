@@ -31,7 +31,7 @@ namespace CartApi.Services
 
         public Task AddOrUpdateAsync(TCacheEntity entity) => AddOrUpdateInternalAsync(entity);
 
-        public async Task<TCacheEntity> GetAsync(int userId)
+        public async Task<TCacheEntity> GetAsync(string userId)
         {
             var redis = GetRedisDatabase();
 
@@ -42,7 +42,7 @@ namespace CartApi.Services
             return !string.IsNullOrEmpty(serialized) ? _jsonSerializer.Deserialize<TCacheEntity>(serialized) : null;
         }
 
-        private string GetItemCacheKey(int userId) =>
+        private string GetItemCacheKey(string userId) =>
             $"{userId}";
 
         private async Task AddOrUpdateInternalAsync(TCacheEntity entity, IDatabase redis = null, TimeSpan? expiry = null)
