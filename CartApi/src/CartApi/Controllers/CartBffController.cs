@@ -1,9 +1,8 @@
 ﻿using System.Threading.Tasks;
-using CartApi.Configuration;
+using CartApi.Models.Requests;
 using CartApi.Services.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 namespace CartApi.Controllers
 {
@@ -13,36 +12,33 @@ namespace CartApi.Controllers
     {
         private readonly ILogger<CartBffController> _logger;
         private readonly ICartService _cartService;
-        private readonly Config _config;
 
         public CartBffController(
             ILogger<CartBffController> logger,
-            IOptions<Config> config,
             ICartService cartService)
         {
             _logger = logger;
             _cartService = cartService;
-            _config = config.Value;
         }
 
         [HttpPost]
-        public async Task<IActionResult> Get(int userId)
+        public async Task<IActionResult> Get([FromBody] GetRequest request)
         {
-            var result = await _cartService.GetAsync(userId);
+            var result = await _cartService.GetAsync(request.UserId);
             return result != null ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(int userId, int gameId)
+        public async Task<IActionResult> Add([FromBody] AddRequest request)
         {
-            var result = await _cartService.AddAsync(userId, gameId);
+            var result = await _cartService.AddAsync(request.UserId, request.ProductId, request.Name, request.Description, request.Price, request.Type);
             return result != null ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Remove(int userId, int gameId)
+        public async Task<IActionResult> Remove([FromBody] RemoveRequest request)
         {
-            var result = await _cartService.RemoveAsync(userId, gameId);
+            var result = await _cartService.RemoveAsync(request.UserId, request.ProductId);
             return result != null ? Ok(result) : BadRequest(result);
         }
     }
