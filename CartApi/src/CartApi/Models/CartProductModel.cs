@@ -2,7 +2,7 @@
 
 namespace CartApi.Models
 {
-    public class ProductModel
+    public class CartProductModel
     {
         public string Id { get; set; }
         public string Name { get; set; }
