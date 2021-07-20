@@ -59,6 +59,11 @@ namespace CartApi.Services
             if (cache != null)
             {
                 var removeProduct = cache.CartProducts.FirstOrDefault(f => f.Id == productId);
+                if (removeProduct == null)
+                {
+                    return new RemoveResponse() { IsDeleted = false };
+                }
+
                 cache.CartProducts.Remove(removeProduct);
                 await _cacheService.AddOrUpdateAsync(cache);
             }
