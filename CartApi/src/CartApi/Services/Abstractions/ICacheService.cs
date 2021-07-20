@@ -8,6 +8,6 @@ namespace CartApi.Services.Abstractions
     {
         Task AddOrUpdateAsync(TCacheEntity entity);
 
-        Task<TCacheEntity> GetAsync(int userId);
+        Task<TCacheEntity> GetAsync(string userId);
     }
 }
