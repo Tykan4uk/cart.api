@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using CartApi.Models.Requests;
 using CartApi.Services.Abstractions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -8,6 +9,7 @@ namespace CartApi.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]/[action]")]
+    [Authorize(Policy = "ApiScopeBff")]
     public class ManageController : ControllerBase
     {
         private readonly ILogger<ManageController> _logger;
