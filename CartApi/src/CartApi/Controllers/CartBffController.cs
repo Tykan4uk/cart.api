@@ -9,7 +9,7 @@ namespace CartApi.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]/[action]")]
-    [Authorize(Policy = "ApiScope")]
+    [Authorize(Policy = "ApiScopeBff")]
     public class CartBffController : ControllerBase
     {
         private readonly ILogger<CartBffController> _logger;
