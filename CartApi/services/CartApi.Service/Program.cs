@@ -15,6 +15,7 @@ namespace CartApi.Service
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                    webBuilder.UseUrls("http://*:5005");
                 });
     }
 }
