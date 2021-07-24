@@ -4,6 +4,6 @@ namespace CartApi.Services.Abstractions
 {
     public interface IRedisCacheConnectionService
     {
-        public ConnectionMultiplexer Connection { get; }
+        public IConnectionMultiplexer Connection { get; }
     }
 }

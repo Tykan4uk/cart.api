@@ -19,7 +19,7 @@ namespace CartApi.Services
                 new Lazy<ConnectionMultiplexer>(() => ConnectionMultiplexer.Connect(redisConfigurationOptions));
         }
 
-        public ConnectionMultiplexer Connection => _connectionLazy.Value;
+        public IConnectionMultiplexer Connection => _connectionLazy.Value;
 
         public void Dispose()
         {
