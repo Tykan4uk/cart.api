@@ -27,21 +27,42 @@ namespace CartApi.Controllers
         public async Task<IActionResult> Get([FromBody] GetRequest request)
         {
             var result = await _cartService.GetAsync(request.UserId);
-            return result != null ? Ok(result) : BadRequest(result);
+
+            if (result == null)
+            {
+                _logger.LogInformation("(CartBffController/Get)Null result. Bad request.");
+                return BadRequest(result);
+            }
+
+            return Ok(result);
         }
 
         [HttpPost]
         public async Task<IActionResult> Add([FromBody] AddRequest request)
         {
             var result = await _cartService.AddAsync(request.UserId, request.ProductId, request.Name, request.Description, request.Price, request.Type);
-            return result != null ? Ok(result) : BadRequest(result);
+
+            if (result == null)
+            {
+                _logger.LogInformation("(CartBffController/Add)Null result. Bad request.");
+                return BadRequest(result);
+            }
+
+            return Ok(result);
         }
 
         [HttpPost]
         public async Task<IActionResult> Remove([FromBody] RemoveRequest request)
         {
             var result = await _cartService.RemoveAsync(request.UserId, request.ProductId);
-            return result != null ? Ok(result) : BadRequest(result);
+
+            if (result == null)
+            {
+                _logger.LogInformation("(CartBffController/Remove)Null result. Bad request.");
+                return BadRequest(result);
+            }
+
+            return Ok(result);
         }
     }
 }

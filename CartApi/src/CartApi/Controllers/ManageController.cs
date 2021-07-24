@@ -24,24 +24,45 @@ namespace CartApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get(GetRequest request)
+        public async Task<IActionResult> Get([FromQuery] GetRequest request)
         {
             var result = await _cartService.GetAsync(request.UserId);
-            return result != null ? Ok(result) : BadRequest(result);
+
+            if (result == null)
+            {
+                _logger.LogInformation("(ManageController/Get)Null result. Bad request.");
+                return BadRequest(result);
+            }
+
+            return Ok(result);
         }
 
         [HttpPost]
         public async Task<IActionResult> Add([FromBody] AddRequest request)
         {
             var result = await _cartService.AddAsync(request.UserId, request.ProductId, request.Name, request.Description, request.Price, request.Type);
-            return result != null ? Ok(result) : BadRequest(result);
+
+            if (result == null)
+            {
+                _logger.LogInformation("(ManageController/Add)Null result. Bad request.");
+                return BadRequest(result);
+            }
+
+            return Ok(result);
         }
 
         [HttpDelete]
         public async Task<IActionResult> Remove([FromBody] RemoveRequest request)
         {
             var result = await _cartService.RemoveAsync(request.UserId, request.ProductId);
-            return result != null ? Ok(result) : BadRequest(result);
+
+            if (result == null)
+            {
+                _logger.LogInformation("(ManageController/Remove)Null result. Bad request.");
+                return BadRequest(result);
+            }
+
+            return Ok(result);
         }
     }
 }
