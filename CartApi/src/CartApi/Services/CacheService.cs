@@ -48,7 +48,6 @@ namespace CartApi.Services
         private async Task AddOrUpdateInternalAsync(TCacheEntity entity, IDatabase redis = null, TimeSpan? expiry = null)
         {
             redis = redis ?? GetRedisDatabase();
-            expiry = expiry ?? _config.Redis.CacheTimeout;
 
             var cacheKey = GetItemCacheKey(entity.UserId);
             var serialized = _jsonSerializer.Serialize(entity);
