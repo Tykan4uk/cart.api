@@ -76,7 +76,7 @@ namespace CartApi.Services
 
                 removeProduct.Count--;
 
-                if (removeProduct.Count == 0)
+                if (removeProduct.Count <= 0)
                 {
                     cache.CartProducts.Remove(removeProduct);
                 }
