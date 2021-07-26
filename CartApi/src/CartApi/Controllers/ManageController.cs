@@ -9,7 +9,6 @@ namespace CartApi.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]/[action]")]
-    [Authorize(Policy = "ApiScope")]
     public class ManageController : ControllerBase
     {
         private readonly ILogger<ManageController> _logger;
@@ -59,6 +58,20 @@ namespace CartApi.Controllers
             if (result == null)
             {
                 _logger.LogInformation("(ManageController/Remove)Null result. Bad request.");
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> Clear([FromBody] ClearRequest request)
+        {
+            var result = await _cartService.ClearAsync(request.UserId);
+
+            if (result == null)
+            {
+                _logger.LogInformation("(ManageController/Clear)Null result. Bad request.");
                 return BadRequest(result);
             }
 

@@ -64,5 +64,19 @@ namespace CartApi.Controllers
 
             return Ok(result);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Clear([FromBody] ClearRequest request)
+        {
+            var result = await _cartService.ClearAsync(request.UserId);
+
+            if (result == null)
+            {
+                _logger.LogInformation("(CartBffController/Clear)Null result. Bad request.");
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
     }
 }
