@@ -26,7 +26,8 @@ namespace CartApi.Services
                 Name = name,
                 Description = description,
                 Price = price,
-                Type = productType
+                Type = productType,
+                Count = 1
             };
             var cache = await _cacheService.GetAsync(userId);
             if (cache == null)
@@ -39,7 +40,16 @@ namespace CartApi.Services
             }
             else
             {
-                cache.CartProducts.Add(cartProduct);
+                var product = cache.CartProducts.FirstOrDefault(f => f.Id == productId);
+                if (product == null)
+                {
+                    cache.CartProducts.Add(cartProduct);
+                }
+                else
+                {
+                    product.Count++;
+                }
+
                 await _cacheService.AddOrUpdateAsync(cache);
             }
 
@@ -64,7 +74,13 @@ namespace CartApi.Services
                     return new RemoveResponse() { IsDeleted = false };
                 }
 
-                cache.CartProducts.Remove(removeProduct);
+                removeProduct.Count--;
+
+                if (removeProduct.Count == 0)
+                {
+                    cache.CartProducts.Remove(removeProduct);
+                }
+
                 await _cacheService.AddOrUpdateAsync(cache);
             }
             else
