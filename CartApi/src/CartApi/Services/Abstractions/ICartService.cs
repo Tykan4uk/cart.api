@@ -9,5 +9,6 @@ namespace CartApi.Services.Abstractions
         Task<AddResponse> AddAsync(string userId, string productId, string name, string description, decimal price, ProductTypeEnum productType);
         Task<GetResponse> GetAsync(string userId);
         Task<RemoveResponse> RemoveAsync(string userId, string productId);
+        Task<ClearResponse> ClearAsync(string userId);
     }
 }

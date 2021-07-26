@@ -90,5 +90,16 @@ namespace CartApi.Services
 
             return new RemoveResponse() { IsDeleted = true };
         }
+
+        public async Task<ClearResponse> ClearAsync(string userId)
+        {
+            var cache = await _cacheService.GetAsync(userId);
+            if (cache != null)
+            {
+                cache = null;
+            }
+
+            return new ClearResponse() { IsCleared = true };
+        }
     }
 }
