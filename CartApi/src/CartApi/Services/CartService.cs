@@ -96,7 +96,8 @@ namespace CartApi.Services
             var cache = await _cacheService.GetAsync(userId);
             if (cache != null)
             {
-                cache = null;
+                cache.CartProducts.Clear();
+                await _cacheService.AddOrUpdateAsync(cache);
             }
 
             return new ClearResponse() { IsCleared = true };
