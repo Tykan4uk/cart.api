@@ -15,15 +15,18 @@ namespace CartApi.Services
         private readonly ILogger<CacheService<TCacheEntity>> _logger;
         private readonly IRedisCacheConnectionService _redisCacheConnectionService;
         private readonly IJsonSerializer _jsonSerializer;
+        private readonly Config _config;
 
         public CacheService(
             ILogger<CacheService<TCacheEntity>> logger,
             IRedisCacheConnectionService redisCacheConnectionService,
+            IOptions<Config> config,
             IJsonSerializer jsonSerializer)
         {
             _logger = logger;
             _redisCacheConnectionService = redisCacheConnectionService;
             _jsonSerializer = jsonSerializer;
+            _config = config.Value;
         }
 
         public Task AddOrUpdateAsync(TCacheEntity entity) => AddOrUpdateInternalAsync(entity);
@@ -45,6 +48,7 @@ namespace CartApi.Services
         private async Task AddOrUpdateInternalAsync(TCacheEntity entity, IDatabase redis = null, TimeSpan? expiry = null)
         {
             redis = redis ?? GetRedisDatabase();
+            expiry = expiry ?? _config.Redis.CacheTimeout;
 
             var cacheKey = GetItemCacheKey(entity.UserId);
             var serialized = _jsonSerializer.Serialize(entity);
