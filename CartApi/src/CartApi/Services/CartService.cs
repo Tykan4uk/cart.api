@@ -93,6 +93,8 @@ namespace CartApi.Services
 
         public async Task<ClearResponse> ClearAsync(string userId)
         {
+            // Дима, привет. Было уже много ночи, я не мог придумать что-то лучше. Ты прости меня, Дима.
+            await Task.Delay(1000);
             var cache = await _cacheService.GetAsync(userId);
             if (cache != null)
             {
